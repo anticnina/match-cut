@@ -1,11 +1,4 @@
 # MatchCut 
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.11+-00e054?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/UI-PyQt6-14181c?style=for-the-badge&logo=qt&logoColor=white" alt="PyQt6">
-  <img src="https://img.shields.io/badge/Data-Pandas-ff8000?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas">
-</p>
-
 ---
 
 ### ❓ What is this?
@@ -26,9 +19,6 @@ Enter your Letterboxd username. Pick a friend. Watch the truth unfold across **s
 <img width="2130" height="1582" alt="image" src="https://github.com/user-attachments/assets/66c36ee1-337b-48c3-acef-3c91373c8a24" />
 
 * 👥 **Follower picker** — browse your following list and pick your first candidate
-
-<img width="2130" height="1576" alt="image" src="https://github.com/user-attachments/assets/ac43c09a-be92-421c-b27d-4debf37a6fbb" />
-
 * 🎞️ **Six-slide compatibility analysis:**
   * 🔄 **1. Co-watched count** — how many films you've both actually seen.
   * ✝️ **2. Mutual Favorites** — films you both gave high ratings or hearted. 
