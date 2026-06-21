@@ -22,9 +22,9 @@ Enter your Letterboxd username. Pick a friend. Watch the truth unfold across **s
 * 🎞️ **Six-slide compatibility analysis:**
   * 🔄 **1. Co-watched count** — how many films you've both actually seen.
   * ✝️ **2. Mutual Favorites** — films you both gave high ratings or hearted. 
-  * 💔 **3. Dealbreakers** — films where your ratings diverge by $1.5+$ or more stars. This is where friendships go to die.
+  * 💔 **3. Dealbreakers** — films where your ratings diverge by $1.5+$ stars. This is where friendships go to die.
   
-  <img width="2134" height="1580" alt="image" src="https://github.com/user-attachments/assets/98a58dd5-e1f9-4218-831b-8eb4cba646e9" />
+<img width="2134" height="1580" alt="image" src="https://github.com/user-attachments/assets/98a58dd5-e1f9-4218-831b-8eb4cba646e9" />
 
   * 🔮 **4. Genre Vibes** — your individual top genres (with percentages) and the one genre you're both secretly obsessed with.
   * 🍿 **5. Watch These Next** — films each of you loved that the other hasn't seen yet. The polite version of *"how have you not watched this?"*
