@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+debug_*.py
+debug_*.html
+debug_*.xml
+following_debug_*.html
+test_*.py
