@@ -305,7 +305,7 @@ class DealbreakersSlide(BaseSlide):
             return
 
         self.add(_label(
-            "Uh-oh! It seems that some films have left\nvery different impressions on you!",
+            "Uh-oh! It seems some movies left you both\nwith very different impressions!",
             28, COLORS["text_primary"], "800",
         ))
 
