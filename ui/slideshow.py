@@ -643,11 +643,7 @@ class SlideshowWidget(QWidget):
         u2_recs = result["u2_recommends"]
         compat  = result.get("compat", {"score": 50, "tier": "Cinema Companions"})
 
-        both = (
-            merged["rating_u1"].notna() | merged["is_liked_u1"].eq(True)
-        ) & (
-            merged["rating_u2"].notna() | merged["is_liked_u2"].eq(True)
-        )
+        both = merged["title_u1"].notna() & merged["title_u2"].notna()
         co_watched = int(both.sum())
 
         self._slides = [

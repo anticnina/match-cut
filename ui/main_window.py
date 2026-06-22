@@ -558,15 +558,15 @@ class MainWindow(QMainWindow):
         self._profile_screen.clear_analysis()
         self._profile_screen.set_loading(True, "Loading data…")
 
-        worker = AnalysisWorker(
+        self._analysis_worker = AnalysisWorker(
             self._u1_profile.get("username", ""),
             username2,
             tmdb_key,
         )
-        worker.signals.progress.connect(self._profile_screen.update_loading_msg)
-        worker.signals.result.connect(self._on_analysis_done)
-        worker.signals.error.connect(self._on_analysis_error)
-        self._pool.start(worker)
+        self._analysis_worker.signals.progress.connect(self._profile_screen.update_loading_msg)
+        self._analysis_worker.signals.result.connect(self._on_analysis_done)
+        self._analysis_worker.signals.error.connect(self._on_analysis_error)
+        self._pool.start(self._analysis_worker)
 
         w2 = ProfileWorker(username2)
         w2.signals.result.connect(lambda d: setattr(self, "_u2_profile", d))

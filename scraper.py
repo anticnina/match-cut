@@ -173,11 +173,47 @@ _RSS_NS = {
 _EMPTY_COLS = ["movie_id", "title", "rating", "is_liked", "genres", "release_year", "tmdb_id", "poster_url"]
 
 
+def _scrape_watched_slugs(username: str, progress_cb=None) -> dict[str, dict]:
+    """
+    Scrape /{username}/films/ pages to get ALL watched film slugs, including
+    films marked as watched without a diary/rating entry (invisible to RSS).
+    Returns {slug: {"title": str, "release_year": int|None}}.
+    """
+    result: dict[str, dict] = {}
+    page = 1
+    while True:
+        url = (f"{LETTERBOXD_BASE}/{username}/films/"
+               if page == 1
+               else f"{LETTERBOXD_BASE}/{username}/films/page/{page}/")
+        soup = _get(url)
+        if soup is None:
+            break
+        items = soup.select("[data-item-slug]")
+        if not items:
+            break
+        for item in items:
+            slug = item.get("data-item-slug", "").strip()
+            name = item.get("data-item-name", "").strip()
+            if not slug:
+                continue
+            title, year = name, None
+            m = re.match(r"^(.+?)\s+\((\d{4})\)\s*$", name)
+            if m:
+                title, year = m.group(1), int(m.group(2))
+            result[slug] = {"title": title or slug, "release_year": year}
+        if progress_cb:
+            progress_cb(f"Loading watched list… {len(result)} films")
+        if not soup.select_one("a.next"):
+            break
+        page += 1
+    return result
+
+
 def scrape_ratings(username: str, progress_cb=None) -> pd.DataFrame:
     """
-    Fetch film history from /{username}/rss/ — the only endpoint Cloudflare
-    does not challenge.  Includes memberRating, memberLike, filmYear, and
-    the TMDB movie ID so genre enrichment requires no title-search round-trips.
+    Fetch film history from /{username}/rss/ (diary entries with ratings/likes)
+    then merge with /{username}/films/ (all watched films, including those never
+    logged in the diary).  Cloudflare allows both endpoints.
 
     Duplicates (rewatches) are collapsed: highest rating wins, liked=True
     if any entry is liked.
@@ -252,7 +288,26 @@ def scrape_ratings(username: str, progress_cb=None) -> pd.DataFrame:
             }
 
     if progress_cb:
-        progress_cb(f"Found {len(rows)} films for {username}")
+        progress_cb(f"Found {len(rows)} diary entries for {username}")
+
+    # Merge with full watched list so films marked as watched without a diary
+    # entry are included (they carry no rating but still count as "watched").
+    watched = _scrape_watched_slugs(username, progress_cb)
+    for slug, meta in watched.items():
+        if slug not in rows:
+            rows[slug] = {
+                "movie_id":     slug,
+                "title":        meta["title"],
+                "rating":       None,
+                "is_liked":     False,
+                "genres":       [],
+                "release_year": meta["release_year"],
+                "tmdb_id":      None,
+                "poster_url":   None,
+            }
+
+    if progress_cb:
+        progress_cb(f"Total watched: {len(rows)} films for {username}")
 
     if not rows:
         return pd.DataFrame(columns=_EMPTY_COLS)
